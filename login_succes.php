@@ -1,68 +1,17 @@
-<?php  
-require_once "pdo.php";
+ <?php  
+ //login_success.php  
  session_start();  
- 
- $unameadmin= 'admin';
- $passadmin= 'admin'
-      if(isset($_POST["login"]))  
-      {  
-           if(empty($_POST["username"]) || empty($_POST["password"]))  
-           {  
-                $message = '<label>All fields are required</label>';  
-           }  
-           else  
-           {  
-			   if(($_POST["username"])== $unameadmin && ($_POST["password"])== $passadmin){
-				$queryadmin = "SELECT * FROM users WHERE username = '$unameadmin' AND password = '$passadmin'";  
-				$stmtadmin = $pdo->prepare($queryadmin);  
-                $stmtadmin->execute(  
-                     array(  
-                          '$unameadmin'     =>     $_POST["username"],  
-                          '$passadmin'     =>     $_POST["password"]  
-                     )  
-					 );
-					 $count = $statement->rowCount();  
-                if($count > 0)  
-                {  
-                     $_SESSION["username"] = $_POST["username"];  
-                     header("location:admin.php");  
-                }  
-                else  
-                {  
-                     $message = '<label>Wrong Data</label>';  
-                }
-			   }
-			   
-			   else {
-
-			   
-				$query = "SELECT * FROM users WHERE username = :username AND password = :password";  
-				
-                $statement = $pdo->prepare($query);  
-                $statement->execute(  
-                     array(  
-                          ':username'     =>     $_POST["username"],  
-                          ':password'     =>     $_POST["password"]  
-                     )  )
-				;
-				$count = $statement->rowCount();  
-                if($count > 0)  
-                {  
-                     $_SESSION["username"] = $_POST["username"];  
-                     header("location:login_succes.php");  
-                }  
-                else  
-                {  
-                     $message = '<label>Wrong Data</label>';  
-                } 
-			} 
-                  
-           }  
-	  }  
-	  $stmt = $pdo->query("SELECT username, password, user_id FROM users");
-$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-	  ?>
-<!doctype html>
+ if(isset($_SESSION["username"]))  
+ {  
+      echo '<h3>Login Success, Welcome - '.$_SESSION["username"].'</h3>';  
+      echo '<br /><br /><a href="logout.php">Logout</a>';  
+ }  
+ else  
+ {  
+      header("location:pdo_login.php");  
+ }  
+ ?>  
+ <!doctype html>
 <html lang="en">
 
 <head>

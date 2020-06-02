@@ -1,68 +1,25 @@
-<?php  
+<?php
 require_once "pdo.php";
- session_start();  
- 
- $unameadmin= 'admin';
- $passadmin= 'admin'
-      if(isset($_POST["login"]))  
-      {  
-           if(empty($_POST["username"]) || empty($_POST["password"]))  
-           {  
-                $message = '<label>All fields are required</label>';  
-           }  
-           else  
-           {  
-			   if(($_POST["username"])== $unameadmin && ($_POST["password"])== $passadmin){
-				$queryadmin = "SELECT * FROM users WHERE username = '$unameadmin' AND password = '$passadmin'";  
-				$stmtadmin = $pdo->prepare($queryadmin);  
-                $stmtadmin->execute(  
-                     array(  
-                          '$unameadmin'     =>     $_POST["username"],  
-                          '$passadmin'     =>     $_POST["password"]  
-                     )  
-					 );
-					 $count = $statement->rowCount();  
-                if($count > 0)  
-                {  
-                     $_SESSION["username"] = $_POST["username"];  
-                     header("location:admin.php");  
-                }  
-                else  
-                {  
-                     $message = '<label>Wrong Data</label>';  
-                }
-			   }
-			   
-			   else {
+$psword="";
 
-			   
-				$query = "SELECT * FROM users WHERE username = :username AND password = :password";  
-				
-                $statement = $pdo->prepare($query);  
-                $statement->execute(  
-                     array(  
-                          ':username'     =>     $_POST["username"],  
-                          ':password'     =>     $_POST["password"]  
-                     )  )
-				;
-				$count = $statement->rowCount();  
-                if($count > 0)  
-                {  
-                     $_SESSION["username"] = $_POST["username"];  
-                     header("location:login_succes.php");  
-                }  
-                else  
-                {  
-                     $message = '<label>Wrong Data</label>';  
-                } 
-			} 
-                  
-           }  
-	  }  
-	  $stmt = $pdo->query("SELECT username, password, user_id FROM users");
+if ( isset($_POST['register'])) {
+    $sql = "INSERT INTO users (username,password,name, email, address,phonenum) 
+              VALUES (:username, :password, :name, :email, :address, :phonenum)";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(array(
+        ':username' => $_POST['username'],
+        ':password' => $_POST['password'],
+        ':name' => $_POST['name'],
+        ':email' => $_POST['email'],
+        ':address' => $_POST['address'],
+        ':phonenum' => $_POST['phonenum']));
+    //use password_verify();
+
+    
+}
+$stmt = $pdo->query("SELECT username, password, name, email, address, phonenum, user_id FROM users");
 $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-	  ?>
-<!doctype html>
+?>
 <html lang="en">
 
 <head>
@@ -104,12 +61,12 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
                 <ul class="navbar-nav ">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="loginuser.php">Login<span class="sr-only">(current)</span></a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html">Login<span class="sr-only">(current)</span></a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
-                    <li class="nav-item ">
+                    <li class="nav-item   active">
                         <a class="nav-link" href="register.html">Register<span class="sr-only">(current)</span></a>
                     </li>
                 </ul>
@@ -124,23 +81,44 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="logo-login">
             <em class="glyphicon glyphicon-user"></em>
         </div>
-        <form action="loginuser.php" class="inner-login" method="post">
-            <h3 class="text-center title-login">Login Member</h3>
+        <form action="register.php" class="inner-login" method="post">
+        <?php
+    if (isset($_POST['register'])==true) {
+       
+        ?>
+        <div class="alert alert-success" role="alert">Register success, try login </div>
+    
+    <?php
+       }
+    ?>
+            <h3 class="text-center title-login">Register Member</h3>
             <div class="form-group">
                 <input type="text" class="form-control" name="username" placeholder="Username">
             </div>
             <div class="form-group">
                 <input type="password" class="form-control" name="password" placeholder="Password">
             </div>
-            <div class="text-center forget">
-                <p>Forgot Password ?</p>
+            <div class="form-group">
+                <input type="text" class="form-control" name="name" placeholder="Name">
             </div>
-            <input type="submit" class="btn btn-block btn-custom-green" value="LOGIN" name="login" />
+            <div class="form-group">
+                <input type="text" class="form-control" name="email" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" name="address" placeholder="Address">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" name="phonenum" placeholder="phone number">
+            </div>
+
+            <input type="submit" class="btn btn-block btn-custom-green" value="Register" name="register" />
             <div class="text-center forget">
-                <p>Do you haven't account yet? <a href="#">Register First</a></p>
+                <p>Already have account <a href="#">Login</a></p>
 
             </div>
+          
         </form>
+        
     </div>
     </div>
     <footer id="footer">
@@ -153,4 +131,3 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </body>
 
 </html>
-   
