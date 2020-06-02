@@ -40,12 +40,12 @@
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
                 <ul class="navbar-nav ">
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="login.html">Login<span class="sr-only">(current)</span></a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
-                    <li class="nav-item ">
+                    <li class="nav-item   active">
                         <a class="nav-link" href="register.html">Register<span class="sr-only">(current)</span></a>
                     </li>
                 </ul>
@@ -61,19 +61,23 @@
             <em class="glyphicon glyphicon-user"></em>
         </div>
         <form action="check-login.php" class="inner-login" method="post">
-            <h3 class="text-center title-login">Login Member</h3>
+            <h3 class="text-center title-login">Register Member</h3>
+            <div class="form-group">
+                <input type="password" class="form-control" name="name" placeholder="Name">
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" name="email" placeholder="Email">
+            </div>
             <div class="form-group">
                 <input type="text" class="form-control" name="username" placeholder="Username">
             </div>
             <div class="form-group">
                 <input type="password" class="form-control" name="password" placeholder="Password">
             </div>
+
+            <input type="submit" class="btn btn-block btn-custom-green" value="Register" />
             <div class="text-center forget">
-                <p>Forgot Password ?</p>
-            </div>
-            <input type="submit" class="btn btn-block btn-custom-green" value="LOGIN" />
-            <div class="text-center forget">
-                <p>Do you haven't account yet? <a href="#">Register First</a></p>
+                <p>Already have account <a href="#">Login</a></p>
 
             </div>
         </form>
